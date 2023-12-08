@@ -1,4 +1,4 @@
-# finnhub-realtime-pipeline
+# Finnhub Realtime Pipeline
 
 The project involves building a data pipeline that streams real-time trading data from the [Finnhub.io](https://finnhub.io/) using websockets. This data is then processed using Spark for analysis and realtime dashboard.
 
