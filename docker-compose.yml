@@ -128,10 +128,25 @@ services:
     env_file:
       - .env
 
-  spark-worker:
+  spark-worker1:
     build:
       context: processor
-    container_name: spark-worker
+    container_name: spark-worker1
+    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
+    environment:
+      SPARK_MODE: worker
+      SPARK_WORKER_CORES: 2
+      SPARK_WORKER_MEMORY: 4g
+      SPARK_MASTER_URL: spark://spark-master:7077
+    volumes:
+      - ./processor/src:/opt/bitnami/spark/scripts
+    env_file:
+      - .env
+
+  spark-worker2:
+    build:
+      context: processor
+    container_name: spark-worker2
     command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
     environment:
       SPARK_MODE: worker
@@ -174,9 +189,9 @@ services:
       context: grafana
     container_name: grafana
     volumes:
-      - ./grafana2/provisioning:/etc/grafana/provisioning
-      - ./grafana2/dashboards:/var/lib/grafana/dashboards
-      - ./grafana2/grafana.ini:/etc/grafana/grafana.ini
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini
     ports:
       - "3003:3000"
     depends_on:

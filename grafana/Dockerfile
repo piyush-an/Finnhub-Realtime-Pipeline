@@ -1,4 +1,4 @@
-FROM grafana/grafana-oss:9.2.6
+FROM grafana/grafana:9.2.6
 
 # COPY ./provisioning /etc/grafana/provisioning
 # COPY ./dashboards /var/lib/grafana/dashboards
