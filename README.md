@@ -9,17 +9,17 @@ The project involves building a data pipeline that streams real-time trading dat
 
 All applications are containerized into Docker containers
 
-**Data Source** - Finnhub.io offering real-time trades for US stocks, forex and crypto using websockets
+1. **Data source layer** - Finnhub.io offering real-time trades for US stocks, forex and crypto using websockets
 
-**Data ingestion layer** - A containerized Python application named producer connects to the Finnhub.io websocket. It encodes retrieved messages into Avro format, as specified in the `schemas/trades.avsc` file, and ingests messages into the Kafka broker.
+2. **Data ingestion layer** - A containerized Python application named producer connects to the Finnhub.io websocket. It encodes retrieved messages into Avro format, as specified in the `schemas/trades.avsc` file, and ingests messages into the Kafka broker.
 
-**Message broker layer** - Messages from producer are consumed by the Kafka broker located in the broker container.
+3. **Message broker layer** - Messages from producer are consumed by the Kafka broker located in the broker container.
 
-**Stream processing layer** - A Spark cluster consisting of one master and two worker node is set up. A PySpark application named processor is submitted to the Spark cluster manager, which delegates a worker for it. This application connects to the Kafka broker to retrieve messages, transforms them using Spark Structured Streaming, and loads them into Cassandra tables. The first query, which transforms trades into a feasible format, runs continuously, whereas the second query, involving aggregations, has a 5-second trigger.
+4. **Stream processing layer** - A Spark cluster consisting of one master and two worker node is set up. A PySpark application named processor is submitted to the Spark cluster manager, which delegates a worker for it. This application connects to the Kafka broker to retrieve messages, transforms them using Spark Structured Streaming, and loads them into Cassandra tables. The first query, which transforms trades into a feasible format, runs continuously, whereas the second query, involving aggregations, has a 5-second trigger.
 
-**Data serving layer** - A Cassandra database stores and persists data from Spark jobs. Upon launching, the `cassandra-setup.cql` script runs to create the keyspace and tables.
+5. **Data serving layer** - A Cassandra database stores and persists data from Spark jobs. Upon launching, the `cassandra-setup.cql` script runs to create the keyspace and tables.
 
-**Visualization layer** - Grafana connects to the Cassandra database using HadesArchitect-Cassandra-Plugin and serves visualized data to users, exemplified in the Finnhub Sample BTC Dashboard. The dashboard refreshes every 500ms.
+6. **Visualization layer** - Grafana connects to the Cassandra database using HadesArchitect-Cassandra-Plugin and serves visualized data to users, exemplified in the Finnhub Sample BTC Dashboard. The dashboard refreshes every 500ms.
 
 
 ## Dashboard
