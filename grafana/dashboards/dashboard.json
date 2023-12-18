@@ -24,6 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 2,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -37,7 +38,9 @@
       },
       "id": 8,
       "panels": [],
-      "title": "Bitcoin (BINANCE:BTCUSDT)",
+      "repeat": "ticker",
+      "repeatDirection": "h",
+      "title": "Stock Price",
       "type": "row"
     },
     {
@@ -128,7 +131,7 @@
           "queryType": "query",
           "rawQuery": true,
           "refId": "A",
-          "target": "select symbol, price, trade_timestamp from trades where symbol = 'BINANCE:BTCUSDT' and trade_timestamp>$__timeFrom and trade_timestamp<$__timeTo;\n\n\n"
+          "target": "select symbol, price, trade_timestamp from trades where symbol = '$ticker' and trade_timestamp>$__timeFrom and trade_timestamp<$__timeTo;\n\n"
         }
       ],
       "timeFrom": "5m",
@@ -202,7 +205,7 @@
           "queryType": "query",
           "rawQuery": true,
           "refId": "A",
-          "target": "select symbol, price_volume_multiply, ingest_timestamp from running_averages_15_sec where symbol='BINANCE:BTCUSDT';"
+          "target": "select symbol, price_volume_multiply, ingest_timestamp from running_averages_15_sec where symbol='$ticker';"
         }
       ],
       "title": "Average price*volume from last 15 seconds",
@@ -294,7 +297,7 @@
           "queryType": "query",
           "rawQuery": true,
           "refId": "A",
-          "target": "select symbol, volume, trade_timestamp from trades where symbol = 'BINANCE:BTCUSDT' and trade_timestamp>$__timeFrom and trade_timestamp<$__timeTo;"
+          "target": "select symbol, volume, trade_timestamp from trades where symbol = '$ticker' and trade_timestamp>$__timeFrom and trade_timestamp<$__timeTo;"
         }
       ],
       "timeFrom": "5m",
@@ -302,12 +305,39 @@
       "type": "timeseries"
     }
   ],
-  "refresh": true,
+  "refresh": "1000ms",
   "schemaVersion": 37,
   "style": "dark",
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "AAPL",
+          "value": "AAPL"
+        },
+        "datasource": {
+          "type": "hadesarchitect-cassandra-datasource",
+          "uid": "zkkgdadVz"
+        },
+        "definition": "SELECT DISTINCT symbol FROM market. Trades;",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Company Ticker",
+        "multi": false,
+        "name": "ticker",
+        "options": [],
+        "query": {
+          "query": "SELECT DISTINCT symbol FROM market. Trades;"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      }
+    ]
   },
   "time": {
     "from": "now-6h",
@@ -319,8 +349,8 @@
     ]
   },
   "timezone": "",
-  "title": "Finnhub sample BTC dashboard",
-  "uid": "oaK8xaOVz",
-  "version": 1,
+  "title": "Finnhub RealTime Dashboard",
+  "uid": "zqy8jRdIk",
+  "version": 3,
   "weekStart": ""
 }

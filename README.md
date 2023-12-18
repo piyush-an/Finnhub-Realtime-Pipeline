@@ -26,7 +26,7 @@ All applications are containerized into Docker containers
 
 A live dashboard that constantly updates to display trade prices every 500 milliseconds.
 
-![Dashboard](images/dashboard.png)
+![Dashboard](images/dashboard.gif)
 
 ## Setup & deployment
 
